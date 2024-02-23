@@ -1,10 +1,17 @@
 <h1 class="mb-5">Posts</h1>
 
-<div id="posts">
-  <% @posts.each do |post| %>
-    <%= render post %>
-    <p><%= link_to "Show this post", post, class: "btn btn-sm btn-outline-dark mt-3" %></p>
-  <% end %>
+<div data-controller="post-sort">
+  <div class="col-6">
+    <select class="form-select my-5 border border-secondary" name="sort_by" id="sort_by" data-action="post-sort#update" data-post-sort-target="select">
+      <option selected>Sort by</option>
+      <option value="time_posted"          <%= 'selected' if params[:sort_by] == 'time_posted' %>>Newest</option>
+      <option value="time_posted_reverse"  <%= 'selected' if params[:sort_by] == 'time_posted_reverse' %>>Oldest</option>
+      <option value="alphabetical"         <%= 'selected' if params[:sort_by] == 'alphabetical' %>>A-Z</option>
+      <option value="alphabetical_reverse" <%= 'selected' if params[:sort_by] == 'alphabetical_reverse' %>>Z-A</option>
+    </select>
+  </div>
 </div>
+
+<%= render "posts" %>
 
 <%= link_to "New post", new_post_path, class: "btn btn-sm btn-outline-dark mt-3" %>

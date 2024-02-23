@@ -2,7 +2,20 @@ class PostsController < ApplicationController
   before_action :set_post, only: %i[ show edit update destroy ]
 
   def index
-    @posts = Post.all
+    @posts =
+    case params[:sort_by]
+    when 'alphabetical'         then Post.order(title: :asc)
+    when 'alphabetical_reverse' then Post.order(title: :desc)
+    when 'time_posted_reverse'  then Post.order(created_at: :asc)
+    when 'time_posted'          then Post.order(created_at: :desc)
+    else
+      Post.order(created_at: :desc)
+    end
+
+    respond_to do |format|
+      format.html
+      format.turbo_stream
+    end
   end
 
   def show; end
